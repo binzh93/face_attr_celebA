@@ -1,0 +1,1247 @@
+name: "SpherefaceNet-20"
+# =========train input=======
+layer
+{
+    name: "Data"
+    type: "Python"
+    top: "data"
+    top: "5_o_Clock_Shadow_label"
+    top: "Arched_Eyebrows_label"
+    top: "Attractive_label"
+    top: "Bags_Under_Eyes_label"
+    top: "Bald_label"
+    top: "Bangs_label"
+    top: "Big_Lips_label"
+    top: "Big_Nose_label"
+    top: "Black_Hair_label"
+    top: "Blond_Hair_label"
+    top: "Blurry_label"
+    top: "Brown_Hair_label"
+    top: "Bushy_Eyebrows_label"
+    top: "Chubby_label"
+    top: "Double_Chin_label"
+    top: "Eyeglasses_label"
+    top: "Goatee_label"
+    top: "Gray_Hair_label"
+    top: "Heavy_Makeup_label"
+    top: "High_Cheekbones_label"
+    top: "Male_label"
+    top: "Mouth_Slightly_Open_label"
+    top: "Mustache_label"
+    top: "Narrow_Eyes_label"
+    top: "No_Beard_label"
+    top: "Oval_Face_label"
+    top: "Pale_Skin_label"
+    top: "Pointy_Nose_label"
+    top: "Receding_Hairline_label"
+    top: "Rosy_Cheeks_label"
+    top: "Sideburns_label"
+    top: "Smiling_label"
+    top: "Straight_Hair_label"
+    top: "Wavy_Hair_label"
+    top: "Wearing_Earrings_label"
+    top: "Wearing_Hat_label"
+    top: "Wearing_Lipstick_label"
+    top: "Wearing_Necklace_label"
+    top: "Wearing_Necktie_label"
+    top: "Young_label"
+    include {
+        phase: TRAIN
+    }
+    python_param {
+        module: "myDataLayer2"
+        layer: "Data_Layer_train"
+        param_str: '{"mirror": True, "illumination": True, "im_size": (150, 200), "batch_size": 512, "src_file": "/workspace/mnt/group/face-det/zhubin/train_file/train.txt", "img_basepath": "/workspace/mnt/group/face-det/zhubin/"}'
+    }
+}
+############## CNN Architecture ###############
+layer {
+  name: "conv1_1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    kernel_size: 3
+    stride: 2
+    pad: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu1_1"
+  type: "PReLU"
+  bottom: "conv1_1"
+  top: "conv1_1"
+}
+layer {
+  name: "conv1_2"
+  type: "Convolution"
+  bottom: "conv1_1"
+  top: "conv1_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu1_2"
+  type: "PReLU"
+  bottom: "conv1_2"
+  top: "conv1_2"
+}
+layer {
+  name: "conv1_3"
+  type: "Convolution"
+  bottom: "conv1_2"
+  top: "conv1_3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu1_3"
+  type: "PReLU"
+  bottom: "conv1_3"
+  top: "conv1_3"
+}
+layer {
+  name: "res1_3"
+  type: "Eltwise"
+  bottom: "conv1_1"
+  bottom: "conv1_3"
+  top: "res1_3"
+  eltwise_param { 
+    operation: 1
+  }
+}
+layer {
+  name: "conv2_1"
+  type: "Convolution"
+  bottom: "res1_3"
+  top: "conv2_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    kernel_size: 3
+    stride: 2
+    pad: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu2_1"
+  type: "PReLU"
+  bottom: "conv2_1"
+  top: "conv2_1"
+}
+layer {
+  name: "conv2_2"
+  type: "Convolution"
+  bottom: "conv2_1"
+  top: "conv2_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu2_2"
+  type: "PReLU"
+  bottom: "conv2_2"
+  top: "conv2_2"
+}
+layer {
+  name: "conv2_3"
+  type: "Convolution"
+  bottom: "conv2_2"
+  top: "conv2_3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu2_3"
+  type: "PReLU"
+  bottom: "conv2_3"
+  top: "conv2_3"
+}
+layer {
+  name: "res2_3"
+  type: "Eltwise"
+  bottom: "conv2_1"
+  bottom: "conv2_3"
+  top: "res2_3"
+  eltwise_param { 
+    operation: 1
+  }
+}
+layer {
+  name: "conv2_4"
+  type: "Convolution"
+  bottom: "res2_3"
+  top: "conv2_4"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu2_4"
+  type: "PReLU"
+  bottom: "conv2_4"
+  top: "conv2_4"
+}
+layer {
+  name: "conv2_5"
+  type: "Convolution"
+  bottom: "conv2_4"
+  top: "conv2_5"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu2_5"
+  type: "PReLU"
+  bottom: "conv2_5"
+  top: "conv2_5"
+}
+layer {
+  name: "res2_5"
+  type: "Eltwise"
+  bottom: "res2_3"
+  bottom: "conv2_5"
+  top: "res2_5"
+  eltwise_param { 
+    operation: 1
+  }
+}
+layer {
+  name: "conv3_1"
+  type: "Convolution"
+  bottom: "res2_5"
+  top: "conv3_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 2
+    pad: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3_1"
+  type: "PReLU"
+  bottom: "conv3_1"
+  top: "conv3_1"
+}
+layer {
+  name: "conv3_2"
+  type: "Convolution"
+  bottom: "conv3_1"
+  top: "conv3_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3_2"
+  type: "PReLU"
+  bottom: "conv3_2"
+  top: "conv3_2"
+}
+layer {
+  name: "conv3_3"
+  type: "Convolution"
+  bottom: "conv3_2"
+  top: "conv3_3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3_3"
+  type: "PReLU"
+  bottom: "conv3_3"
+  top: "conv3_3"
+}
+layer {
+  name: "res3_3"
+  type: "Eltwise"
+  bottom: "conv3_1"
+  bottom: "conv3_3"
+  top: "res3_3"
+  eltwise_param { 
+    operation: 1
+  }
+}
+layer {
+  name: "conv3_4"
+  type: "Convolution"
+  bottom: "res3_3"
+  top: "conv3_4"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3_4"
+  type: "PReLU"
+  bottom: "conv3_4"
+  top: "conv3_4"
+}
+layer {
+  name: "conv3_5"
+  type: "Convolution"
+  bottom: "conv3_4"
+  top: "conv3_5"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3_5"
+  type: "PReLU"
+  bottom: "conv3_5"
+  top: "conv3_5"
+}
+layer {
+  name: "res3_5"
+  type: "Eltwise"
+  bottom: "res3_3"
+  bottom: "conv3_5"
+  top: "res3_5"
+  eltwise_param { 
+    operation: 1
+  }
+}
+layer {
+  name: "conv3_6"
+  type: "Convolution"
+  bottom: "res3_5"
+  top: "conv3_6"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3_6"
+  type: "PReLU"
+  bottom: "conv3_6"
+  top: "conv3_6"
+}
+layer {
+  name: "conv3_7"
+  type: "Convolution"
+  bottom: "conv3_6"
+  top: "conv3_7"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3_7"
+  type: "PReLU"
+  bottom: "conv3_7"
+  top: "conv3_7"
+}
+layer {
+  name: "res3_7"
+  type: "Eltwise"
+  bottom: "res3_5"
+  bottom: "conv3_7"
+  top: "res3_7"
+  eltwise_param { 
+    operation: 1
+  }
+}
+layer {
+  name: "conv3_8"
+  type: "Convolution"
+  bottom: "res3_7"
+  top: "conv3_8"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3_8"
+  type: "PReLU"
+  bottom: "conv3_8"
+  top: "conv3_8"
+}
+layer {
+  name: "conv3_9"
+  type: "Convolution"
+  bottom: "conv3_8"
+  top: "conv3_9"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3_9"
+  type: "PReLU"
+  bottom: "conv3_9"
+  top: "conv3_9"
+}
+layer {
+  name: "res3_9"
+  type: "Eltwise"
+  bottom: "res3_7"
+  bottom: "conv3_9"
+  top: "res3_9"
+  eltwise_param { 
+    operation: 1
+  }
+}
+layer {
+  name: "conv4_1"
+  type: "Convolution"
+  bottom: "res3_9"
+  top: "conv4_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    kernel_size: 3
+    stride: 2
+    pad: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu4_1"
+  type: "PReLU"
+  bottom: "conv4_1"
+  top: "conv4_1"
+}
+layer {
+  name: "conv4_2"
+  type: "Convolution"
+  bottom: "conv4_1"
+  top: "conv4_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu4_2"
+  type: "PReLU"
+  bottom: "conv4_2"
+  top: "conv4_2"
+}
+layer {
+  name: "conv4_3"
+  type: "Convolution"
+  bottom: "conv4_2"
+  top: "conv4_3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    kernel_size: 3
+    stride: 1
+    pad: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu4_3"
+  type: "PReLU"
+  bottom: "conv4_3"
+  top: "conv4_3"
+}
+layer {
+  name: "res4_3"
+  type: "Eltwise"
+  bottom: "conv4_1"
+  bottom: "conv4_3"
+  top: "res4_3"
+  eltwise_param { 
+    operation: 1
+  }
+}
+# ================================
+layer {
+  name: "fc-512"
+  type: "InnerProduct"
+  bottom: "res4_3"
+  top: "fc-512"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 512
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+#=================================
+# layer
+# {
+#     name: "dropout"
+#     type: "Dropout"
+#     bottom: "pool5"
+#     top: "drfc5"
+#     dropout_param {
+#         dropout_ratio: 0.5
+#     }
+# }
+#=================================
+layer
+{
+  name: "cls_5_o_Clock_Shadow"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_5_o_Clock_Shadow"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+
+
+layer
+{
+    name: "loss_cls_5_o_Clock_Shadow"
+    type: "SoftmaxWithLoss"
+    bottom: "cls_5_o_Clock_Shadow"
+    bottom: "5_o_Clock_Shadow_label"
+    top: "loss_5_o_Clock_Shadow"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Arched_Eyebrows"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Arched_Eyebrows_label"
+    top: "loss_Arched_Eyebrows"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Attractive"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Attractive_label"
+    top: "loss_Attractive"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Bags_Under_Eyes"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Bags_Under_Eyes_label"
+    top: "loss_Bags_Under_Eyes"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Bald"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Bald_label"
+    top: "loss_Bald"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Bangs"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Bangs_label"
+    top: "loss_Bangs"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Big_Lips"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Big_Lips_label"
+    top: "loss_Big_Lips"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Big_Nose"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Big_Nose_label"
+    top: "loss_Big_Nose"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Black_Hair"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Black_Hair_label"
+    top: "loss_Black_Hair"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Blond_Hair"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Blond_Hair_label"
+    top: "loss_Blond_Hair"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Blurry"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Blurry_label"
+    top: "loss_Blurry"
+    loss_weight: 1
+}    
+layer
+{
+    name: "loss_cls_Brown_Hair"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Brown_Hair_label"
+    top: "loss_Brown_Hair"
+    loss_weight: 1
+}    
+layer
+{
+    name: "loss_cls_Bushy_Eyebrows"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Bushy_Eyebrows_label"
+    top: "loss_Bushy_Eyebrows"
+    loss_weight: 1
+}    
+layer
+{
+    name: "loss_cls_Chubby"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Chubby_label"
+    top: "loss_Chubby"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Double_Chin"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Double_Chin_label"
+    top: "loss_Double_Chin"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Eyeglasses"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Eyeglasses_label"
+    top: "loss_Eyeglasses"
+    loss_weight: 1
+}    
+layer
+{
+    name: "loss_cls_Goatee"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Goatee_label"
+    top: "loss_Goatee"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Gray_Hair"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Gray_Hair_label"
+    top: "loss_Gray_Hair"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Heavy_Makeup"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Heavy_Makeup_label"
+    top: "loss_Heavy_Makeup"
+    loss_weight: 1
+}  
+layer
+{
+    name: "loss_cls_High_Cheekbones"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "High_Cheekbones_label"
+    top: "loss_High_Cheekbones"
+    loss_weight: 1
+}  
+layer
+{
+    name: "loss_cls_Male"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Male_label"
+    top: "loss_Male"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Mouth_Slightly_Open"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Mouth_Slightly_Open_label"
+    top: "loss_Mouth_Slightly_Open"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Mustache"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Mustache_label"
+    top: "loss_Mustache"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Narrow_Eyes"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Narrow_Eyes_label"
+    top: "loss_Narrow_Eyes"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_No_Beard"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "No_Beard_label"
+    top: "loss_No_Beardw"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Oval_Face"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Oval_Face_label"
+    top: "loss_Oval_Face"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Pale_Skin"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Pale_Skin_label"
+    top: "loss_Pale_Skin"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Pointy_Nose"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Pointy_Nose_label"
+    top: "loss_Pointy_Nose"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Receding_Hairline"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Receding_Hairline_label"
+    top: "loss_Receding_Hairline"
+    loss_weight: 1
+}    
+layer
+{
+    name: "loss_cls_Rosy_Cheeks"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Rosy_Cheeks_label"
+    top: "loss_Rosy_Cheeks"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Sideburns"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Sideburns_label"
+    top: "loss_Sideburns"
+    loss_weight: 1
+}    
+layer
+{
+    name: "loss_cls_Smiling"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Smiling_label"
+    top: "loss_Smiling"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Straight_Hair"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Straight_Hair_label"
+    top: "loss_Straight_Hair"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Wavy_Hair"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Wavy_Hair_label"
+    top: "loss_Wavy_Hair"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Wearing_Earrings"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Wearing_Earrings_label"
+    top: "loss_Wearing_Earrings"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Wearing_Hat"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Wearing_Hat_label"
+    top: "loss_Wearing_Hat"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Wearing_Lipstick"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Wearing_Lipstick_label"
+    top: "loss_Wearing_Lipstick"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Wearing_Necklace"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Wearing_Necklace_label"
+    top: "loss_Wearing_Necklace"
+    loss_weight: 1
+}   
+layer
+{
+    name: "loss_cls_Wearing_Necktie"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Wearing_Necktie_label"
+    top: "loss_Wearing_Necktie"
+    loss_weight: 1
+}
+layer
+{
+    name: "loss_cls_Young"
+    type: "SoftmaxWithLoss"
+    bottom: "fc-512"
+    bottom: "Young_label"
+    top: "loss_Young"
+    loss_weight: 1
+}
+
+
+
+
+
+   
+   
+    
+    
+
