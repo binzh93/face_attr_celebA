@@ -1,5 +1,5 @@
 name: "SpherefaceNet-20"
-# =========test input=======
+# =========train input=======
 layer
 {
     name: "Data"
@@ -49,9 +49,9 @@ layer
         phase: TEST
     }
     python_param {
-        module: "model/myDataLayer2"
-        layer: "Data_Layer_validation"
-        param_str: '{"mirror": False, "illumination": False, "im_size": (150, 200), "batch_size": 1, "src_file": "/workspace/mnt/group/face-reg/zhubin/train_file/train.txt", "img_basepath": "/workspace/mnt/group/face-reg/zhubin/"}'
+        module: "myDataLayer2"
+        layer: "Data_Layer_train"
+        param_str: '{"mirror": True, "illumination": True, "im_size": (200, 150), "batch_size": 20, "src_file": "/workspace/mnt/group/face-reg/zhubin/celebA/train.txt", "img_basepath": "/workspace/mnt/group/face-reg/zhubin/"}'
     }
 }
 ############## CNN Architecture ###############
@@ -74,7 +74,8 @@ layer {
     stride: 2
     pad: 1
     weight_filler {
-      type: "xavier"
+      type: "gaussian"
+      std: 0.01
     }
     bias_filler {
       type: "constant"
@@ -185,7 +186,8 @@ layer {
     stride: 2
     pad: 1
     weight_filler {
-      type: "xavier"
+      type: "gaussian"
+      std: 0.01
     }
     bias_filler {
       type: "constant"
@@ -374,7 +376,8 @@ layer {
     stride: 2
     pad: 1
     weight_filler {
-      type: "xavier"
+      type: "gaussian"
+      std: 0.01
     }
     bias_filler {
       type: "constant"
@@ -719,7 +722,8 @@ layer {
     stride: 2
     pad: 1
     weight_filler {
-      type: "xavier"
+      type: "gaussian"
+      std: 0.01
     }
     bias_filler {
       type: "constant"
@@ -849,373 +853,1484 @@ layer {
 #     }
 # }
 #=================================
+
+#========5_o_Clock_Shadow=======
 layer
 {
-    name: "loss_cls_5_o_Clock_Shadow"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_5_o_Clock_Shadow"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_5_o_Clock_Shadow"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_5_o_Clock_Shadow"
     bottom: "5_o_Clock_Shadow_label"
-    top: "loss_5_o_Clock_Shadow"
-    loss_weight: 1
+    top: "5_o_Clock_Shadow_acc/top-1"
+    name: "5_o_Clock_Shadow_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+# ==========Arched_Eyebrows ===============
 layer
 {
-    name: "loss_cls_Arched_Eyebrows"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Arched_Eyebrows"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Arched_Eyebrows"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Arched_Eyebrows"
     bottom: "Arched_Eyebrows_label"
-    top: "loss_Arched_Eyebrows"
-    loss_weight: 1
+    top: "Arched_Eyebrows_acc/top-1"
+    name: "Arched_Eyebrows_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#  =========Attractive ========
 layer
 {
-    name: "loss_cls_Attractive"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Attractive"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Attractive"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Attractive"
     bottom: "Attractive_label"
-    top: "loss_Attractive"
-    loss_weight: 1
+    top: "Attractive_acc/top-1"
+    name: "Attractive_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#========= Bags_Under_Eyes
 layer
 {
-    name: "loss_cls_Bags_Under_Eyes"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Bags_Under_Eyes"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Bags_Under_Eyes"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Bags_Under_Eyes"
     bottom: "Bags_Under_Eyes_label"
-    top: "loss_Bags_Under_Eyes"
-    loss_weight: 1
+    top: "Bags_Under_Eyes_acc/top-1"
+    name: "Bags_Under_Eyes_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=========cls_Bald  ============
 layer
 {
-    name: "loss_cls_Bald"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Bald"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Bald"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Bald"
     bottom: "Bald_label"
-    top: "loss_Bald"
-    loss_weight: 1
+    top: "Bald_acc/top-1"
+    name: "Bald_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#======== Bangs
 layer
 {
-    name: "loss_cls_Bangs"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Bangs"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Bangs"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Bangs"
     bottom: "Bangs_label"
-    top: "loss_Bangs"
-    loss_weight: 1
+    top: "Bangs_acc/top-1"
+    name: "Bangs_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=======cls_Big_Lips======
 layer
 {
-    name: "loss_cls_Big_Lips"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Big_Lips"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Big_Lips"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Big_Lips"
     bottom: "Big_Lips_label"
-    top: "loss_Big_Lips"
-    loss_weight: 1
+    top: "Big_Lips_acc/top-1"
+    name: "Big_Lips_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+# ======= cls_Big_Nose =====
 layer
 {
-    name: "loss_cls_Big_Nose"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Big_Nose"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Big_Nose"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Big_Nose"
     bottom: "Big_Nose_label"
-    top: "loss_Big_Nose"
-    loss_weight: 1
+    top: "Big_Nose_acc/top-1"
+    name: "Big_Nose_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#======= Black_Hair
 layer
 {
-    name: "loss_cls_Black_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Black_Hair"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Black_Hair"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Black_Hair"
     bottom: "Black_Hair_label"
-    top: "loss_Black_Hair"
-    loss_weight: 1
+    top: "Black_Hair_acc/top-1"
+    name: "Black_Hair_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#===========cls_Blond_Hair 
 layer
 {
-    name: "loss_cls_Blond_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Blond_Hair"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Blond_Hair"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Blond_Hair"
     bottom: "Blond_Hair_label"
-    top: "loss_Blond_Hair"
-    loss_weight: 1
+    top: "Blond_Hair_acc/top-1"
+    name: "Blond_Hair_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+# =========== cls_Blurry
 layer
 {
-    name: "loss_cls_Blurry"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Blurry"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Blurry"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+} 
+layer {
+    bottom: "cls_Blurry"
     bottom: "Blurry_label"
-    top: "loss_Blurry"
-    loss_weight: 1
-}    
+    top: "Blurry_acc/top-1"
+    name: "Blurry_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========== Brown_Hair
 layer
 {
-    name: "loss_cls_Brown_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Brown_Hair"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Brown_Hair"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}  
+layer {
+    bottom: "cls_Brown_Hair"
     bottom: "Brown_Hair_label"
-    top: "loss_Brown_Hair"
-    loss_weight: 1
-}    
+    top: "Brown_Hair_acc/top-1"
+    name: "Brown_Hair_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+# =========Bushy_Eyebrows
 layer
 {
-    name: "loss_cls_Bushy_Eyebrows"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Bushy_Eyebrows"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Bushy_Eyebrows"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}  
+layer {
+    bottom: "cls_Bushy_Eyebrows"
     bottom: "Bushy_Eyebrows_label"
-    top: "loss_Bushy_Eyebrows"
-    loss_weight: 1
-}    
+    top: "Bushy_Eyebrows_acc/top-1"
+    name: "Bushy_Eyebrows_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#===========cls_Chubby
 layer
 {
-    name: "loss_cls_Chubby"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Chubby"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Chubby"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Chubby"
     bottom: "Chubby_label"
-    top: "loss_Chubby"
-    loss_weight: 1
-}   
+    top: "Chubby_acc/top-1"
+    name: "Chubby_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#========== cls_Double_Chin
 layer
 {
-    name: "loss_cls_Double_Chin"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Double_Chin"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Double_Chin"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+} 
+layer {
+    bottom: "cls_Double_Chin"
     bottom: "Double_Chin_label"
-    top: "loss_Double_Chin"
-    loss_weight: 1
-}   
+    top: "Double_Chin_acc/top-1"
+    name: "Double_Chin_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#========== Eyeglasses
 layer
 {
-    name: "loss_cls_Eyeglasses"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Eyeglasses"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Eyeglasses"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Eyeglasses"
     bottom: "Eyeglasses_label"
-    top: "loss_Eyeglasses"
-    loss_weight: 1
-}    
+    top: "Eyeglasses_acc/top-1"
+    name: "Eyeglasses_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}   
+# ================cls_Goatee
 layer
 {
-    name: "loss_cls_Goatee"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Goatee"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Goatee"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+} 
+layer {
+    bottom: "cls_Goatee"
     bottom: "Goatee_label"
-    top: "loss_Goatee"
-    loss_weight: 1
-}   
+    top: "Goatee_acc/top-1"
+    name: "Goatee_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+# ===================Gray_Hair
 layer
 {
-    name: "loss_cls_Gray_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Gray_Hair"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Gray_Hair"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+} 
+layer {
+    bottom: "cls_Gray_Hair"
     bottom: "Gray_Hair_label"
-    top: "loss_Gray_Hair"
-    loss_weight: 1
-}   
+    top: "Gray_Hair_acc/top-1"
+    name: "Gray_Hair_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#==========cls_Heavy_Makeup
 layer
 {
-    name: "loss_cls_Heavy_Makeup"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Heavy_Makeup"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Heavy_Makeup"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Heavy_Makeup"
     bottom: "Heavy_Makeup_label"
-    top: "loss_Heavy_Makeup"
-    loss_weight: 1
-}  
+    top: "Heavy_Makeup_acc/top-1"
+    name: "Heavy_Makeup_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+# ============ High_Cheekbones
 layer
 {
-    name: "loss_cls_High_Cheekbones"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_High_Cheekbones"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_High_Cheekbones"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_High_Cheekbones"
     bottom: "High_Cheekbones_label"
-    top: "loss_High_Cheekbones"
-    loss_weight: 1
-}  
+    top: "High_Cheekbones_acc/top-1"
+    name: "High_Cheekbones_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+} 
+# ============Male
 layer
 {
-    name: "loss_cls_Male"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Male"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Male"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Male"
     bottom: "Male_label"
-    top: "loss_Male"
-    loss_weight: 1
+    top: "Male_acc/top-1"
+    name: "Male_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=========Mouth_Slightly_Open
 layer
 {
-    name: "loss_cls_Mouth_Slightly_Open"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Mouth_Slightly_Open"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Mouth_Slightly_Open"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Mouth_Slightly_Open"
     bottom: "Mouth_Slightly_Open_label"
-    top: "loss_Mouth_Slightly_Open"
-    loss_weight: 1
+    top: "Mouth_Slightly_Open_acc/top-1"
+    name: "Mouth_Slightly_Open_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=========cls_Mustache
 layer
 {
-    name: "loss_cls_Mustache"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Mustache"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Mustache"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Mustache"
     bottom: "Mustache_label"
-    top: "loss_Mustache"
-    loss_weight: 1
+    top: "Mustache_acc/top-1"
+    name: "Mustache_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=========cls_Narrow_Eyes
 layer
 {
-    name: "loss_cls_Narrow_Eyes"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Narrow_Eyes"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Narrow_Eyes"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Narrow_Eyes"
     bottom: "Narrow_Eyes_label"
-    top: "loss_Narrow_Eyes"
-    loss_weight: 1
+    top: "Narrow_Eyes_acc/top-1"
+    name: "Narrow_Eyes_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=========cls_No_Beard
 layer
 {
-    name: "loss_cls_No_Beard"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_No_Beard"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_No_Beard"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_No_Beard"
     bottom: "No_Beard_label"
-    top: "loss_No_Beardw"
-    loss_weight: 1
+    top: "No_Beard_acc/top-1"
+    name: "No_Beard_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=========cls_Oval_Face
 layer
 {
-    name: "loss_cls_Oval_Face"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Oval_Face"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Oval_Face"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Oval_Face"
     bottom: "Oval_Face_label"
-    top: "loss_Oval_Face"
-    loss_weight: 1
+    top: "Oval_Face_acc/top-1"
+    name: "Oval_Face_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=========cls_Pale_Skin
 layer
 {
-    name: "loss_cls_Pale_Skin"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Pale_Skin"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Pale_Skin"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}  
+layer {
+    bottom: "cls_Pale_Skin"
     bottom: "Pale_Skin_label"
-    top: "loss_Pale_Skin"
-    loss_weight: 1
-}   
+    top: "Pale_Skin_acc/top-1"
+    name: "Pale_Skin_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Pointy_Nose
 layer
 {
-    name: "loss_cls_Pointy_Nose"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Pointy_Nose"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Pointy_Nose"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}  
+layer {
+    bottom: "cls_Pointy_Nose"
     bottom: "Pointy_Nose_label"
-    top: "loss_Pointy_Nose"
-    loss_weight: 1
-}   
+    top: "Pointy_Nose_acc/top-1"
+    name: "Pointy_Nose_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Receding_Hairline
 layer
 {
-    name: "loss_cls_Receding_Hairline"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Receding_Hairline"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Receding_Hairline"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}  
+layer {
+    bottom: "cls_Receding_Hairline"
     bottom: "Receding_Hairline_label"
-    top: "loss_Receding_Hairline"
-    loss_weight: 1
-}    
+    top: "Receding_Hairline_acc/top-1"
+    name: "Receding_Hairline_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Rosy_Cheeks
 layer
 {
-    name: "loss_cls_Rosy_Cheeks"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Rosy_Cheeks"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Rosy_Cheeks"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Rosy_Cheeks"
     bottom: "Rosy_Cheeks_label"
-    top: "loss_Rosy_Cheeks"
-    loss_weight: 1
+    top: "Rosy_Cheeks_acc/top-1"
+    name: "Rosy_Cheeks_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=========cls_Sideburns
 layer
 {
-    name: "loss_cls_Sideburns"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Sideburns"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Sideburns"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Sideburns"
     bottom: "Sideburns_label"
-    top: "loss_Sideburns"
-    loss_weight: 1
-}    
+    top: "Sideburns_acc/top-1"
+    name: "Sideburns_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Smiling
 layer
 {
-    name: "loss_cls_Smiling"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Smiling"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Smiling"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Smiling"
     bottom: "Smiling_label"
-    top: "loss_Smiling"
-    loss_weight: 1
-}   
+    top: "Smiling_acc/top-1"
+    name: "Smiling_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Straight_Hair
 layer
 {
-    name: "loss_cls_Straight_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Straight_Hair"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Straight_Hair"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+} 
+layer {
+    bottom: "cls_Straight_Hair"
     bottom: "Straight_Hair_label"
-    top: "loss_Straight_Hair"
-    loss_weight: 1
-}   
+    top: "Straight_Hair_acc/top-1"
+    name: "Straight_Hair_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Wavy_Hair
 layer
 {
-    name: "loss_cls_Wavy_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Wavy_Hair"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Wavy_Hair"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+} 
+layer {
+    bottom: "cls_Wavy_Hair"
     bottom: "Wavy_Hair_label"
-    top: "loss_Wavy_Hair"
-    loss_weight: 1
-}   
+    top: "Wavy_Hair_acc/top-1"
+    name: "Wavy_Hair_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Wearing_Earrings
 layer
 {
-    name: "loss_cls_Wearing_Earrings"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Wearing_Earrings"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Wearing_Earrings"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Wearing_Earrings"
     bottom: "Wearing_Earrings_label"
-    top: "loss_Wearing_Earrings"
-    loss_weight: 1
-}   
+    top: "Wearing_Earrings_acc/top-1"
+    name: "Wearing_Earrings_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Wearing_Hat
 layer
 {
-    name: "loss_cls_Wearing_Hat"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Wearing_Hat"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Wearing_Hat"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+} 
+layer {
+    bottom: "cls_Wearing_Hat"
     bottom: "Wearing_Hat_label"
-    top: "loss_Wearing_Hat"
-    loss_weight: 1
-}   
+    top: "Wearing_Hat_acc/top-1"
+    name: "Wearing_Hat_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Wearing_Lipstick
 layer
 {
-    name: "loss_cls_Wearing_Lipstick"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Wearing_Lipstick"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Wearing_Lipstick"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Wearing_Lipstick"
     bottom: "Wearing_Lipstick_label"
-    top: "loss_Wearing_Lipstick"
-    loss_weight: 1
-}   
+    top: "Wearing_Lipstick_acc/top-1"
+    name: "Wearing_Lipstick_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Wearing_Necklace
 layer
 {
-    name: "loss_cls_Wearing_Necklace"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Wearing_Necklace"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Wearing_Necklace"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Wearing_Necklace"
     bottom: "Wearing_Necklace_label"
-    top: "loss_Wearing_Necklace"
-    loss_weight: 1
-}   
+    top: "Wearing_Necklace_acc/top-1"
+    name: "Wearing_Necklace_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}
+#=========cls_Wearing_Necktie
 layer
 {
-    name: "loss_cls_Wearing_Necktie"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
+  name: "cls_Wearing_Necktie"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Wearing_Necktie"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+    bottom: "cls_Wearing_Necktie"
     bottom: "Wearing_Necktie_label"
-    top: "loss_Wearing_Necktie"
-    loss_weight: 1
+    top: "Wearing_Necktie_acc/top-1"
+    name: "Wearing_Necktie_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
 }
+#=========cls_Young
 layer
 {
-    name: "loss_cls_Young"
-    type: "SoftmaxWithLoss"
-    bottom: "fc-512"
-    bottom: "Young_label"
-    top: "loss_Young"
-    loss_weight: 1
+  name: "cls_Young"
+  type: "InnerProduct"
+  bottom: "fc-512"
+  top: "cls_Young"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
 }
-
-
-
-
-
-   
-   
-    
-    
-
+layer {
+    bottom: "cls_Young"
+    bottom: "Young_label"
+    top: "Young_acc/top-1"
+    name: "Young_acc/top-1"
+    type: "Accuracy"
+    include {
+        phase: TEST
+    }
+}

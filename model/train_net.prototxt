@@ -50,8 +50,8 @@ layer
     }
     python_param {
         module: "myDataLayer2"
-        layer: "model/Data_Layer_train"
-        param_str: '{"mirror": True, "illumination": True, "im_size": (150, 200), "batch_size": 10, "src_file": "/workspace/mnt/group/face-reg/zhubin/train_file/train.txt", "img_basepath": "/workspace/mnt/group/face-reg/zhubin/"}'
+        layer: "Data_Layer_train"
+        param_str: '{"mirror": True, "illumination": True, "im_size": (200, 150), "batch_size": 128, "src_file": "/workspace/mnt/group/face-reg/zhubin/celebA/train.txt", "img_basepath": "/workspace/mnt/group/face-reg/zhubin/"}'
     }
 }
 ############## CNN Architecture ###############
@@ -1301,7 +1301,7 @@ layer
   name: "cls_Bushy_Eyebrows"
   type: "InnerProduct"
   bottom: "fc-512"
-  top: "cls_Bushy_Eyebrowsl"
+  top: "cls_Bushy_Eyebrows"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -1883,7 +1883,7 @@ layer
   name: "cls_Receding_Hairline"
   type: "InnerProduct"
   bottom: "fc-512"
-  top: "cls_Receding_Hairlinee"
+  top: "cls_Receding_Hairline"
   param {
     lr_mult: 1
     decay_mult: 1

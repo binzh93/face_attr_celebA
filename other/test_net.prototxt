@@ -46,12 +46,12 @@ layer
     top: "Wearing_Necktie_label"
     top: "Young_label"
     include {
-        phase: TRAIN
+        phase: TEST
     }
     python_param {
         module: "myDataLayer2"
         layer: "Data_Layer_train"
-        param_str: '{"mirror": True, "illumination": True, "im_size": (150, 200), "batch_size": 512, "src_file": "/workspace/mnt/group/face-det/zhubin/train_file/train.txt", "img_basepath": "/workspace/mnt/group/face-det/zhubin/"}'
+        param_str: '{"mirror": True, "illumination": True, "im_size": (150, 200), "batch_size": 10, "src_file": "/workspace/mnt/group/face-reg/zhubin/celebA/train.txt", "img_basepath": "/workspace/mnt/group/face-reg/zhubin/"}'
     }
 }
 ############## CNN Architecture ###############
@@ -884,8 +884,8 @@ layer
 layer {
     bottom: "cls_5_o_Clock_Shadow"
     bottom: "5_o_Clock_Shadow_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "5_o_Clock_Shadow_acc/top-1"
+    name: "5_o_Clock_Shadow_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -921,8 +921,8 @@ layer
 layer {
     bottom: "cls_Arched_Eyebrows"
     bottom: "Arched_Eyebrows_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Arched_Eyebrows_acc/top-1"
+    name: "Arched_Eyebrows_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -958,8 +958,8 @@ layer
 layer {
     bottom: "cls_Attractive"
     bottom: "Attractive_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Attractive_acc/top-1"
+    name: "Attractive_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -995,8 +995,8 @@ layer
 layer {
     bottom: "cls_Bags_Under_Eyes"
     bottom: "Bags_Under_Eyes_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Bags_Under_Eyes_acc/top-1"
+    name: "Bags_Under_Eyes_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1032,8 +1032,8 @@ layer
 layer {
     bottom: "cls_Bald"
     bottom: "Bald_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Bald_acc/top-1"
+    name: "Bald_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1069,8 +1069,8 @@ layer
 layer {
     bottom: "cls_Bangs"
     bottom: "Bangs_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Bangs_acc/top-1"
+    name: "Bangs_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1106,8 +1106,8 @@ layer
 layer {
     bottom: "cls_Big_Lips"
     bottom: "Big_Lips_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Big_Lips_acc/top-1"
+    name: "Big_Lips_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1143,8 +1143,8 @@ layer
 layer {
     bottom: "cls_Big_Nose"
     bottom: "Big_Nose_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Big_Nose_acc/top-1"
+    name: "Big_Nose_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1180,8 +1180,8 @@ layer
 layer {
     bottom: "cls_Black_Hair"
     bottom: "Black_Hair_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Black_Hair_acc/top-1"
+    name: "Black_Hair_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1217,8 +1217,8 @@ layer
 layer {
     bottom: "cls_Blond_Hair"
     bottom: "Blond_Hair_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Blond_Hair_acc/top-1"
+    name: "Blond_Hair_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1254,8 +1254,8 @@ layer
 layer {
     bottom: "cls_Blurry"
     bottom: "Blurry_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Blurry_acc/top-1"
+    name: "Blurry_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1291,8 +1291,8 @@ layer
 layer {
     bottom: "cls_Brown_Hair"
     bottom: "Brown_Hair_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Brown_Hair_acc/top-1"
+    name: "Brown_Hair_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1304,7 +1304,7 @@ layer
   name: "cls_Bushy_Eyebrows"
   type: "InnerProduct"
   bottom: "fc-512"
-  top: "cls_Bushy_Eyebrowsl"
+  top: "cls_Bushy_Eyebrows"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -1326,10 +1326,10 @@ layer
   }
 }  
 layer {
-    bottom: "cls_Bushy_Eyebrowsl"
+    bottom: "cls_Bushy_Eyebrows"
     bottom: "Bushy_Eyebrows_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Bushy_Eyebrows_acc/top-1"
+    name: "Bushy_Eyebrows_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1365,8 +1365,8 @@ layer
 layer {
     bottom: "cls_Chubby"
     bottom: "Chubby_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Chubby_acc/top-1"
+    name: "Chubby_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1402,8 +1402,8 @@ layer
 layer {
     bottom: "cls_Double_Chin"
     bottom: "Double_Chin_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Double_Chin_acc/top-1"
+    name: "Double_Chin_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1439,8 +1439,8 @@ layer
 layer {
     bottom: "cls_Eyeglasses"
     bottom: "Eyeglasses_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Eyeglasses_acc/top-1"
+    name: "Eyeglasses_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1476,8 +1476,8 @@ layer
 layer {
     bottom: "cls_Goatee"
     bottom: "Goatee_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Goatee_acc/top-1"
+    name: "Goatee_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1513,8 +1513,8 @@ layer
 layer {
     bottom: "cls_Gray_Hair"
     bottom: "Gray_Hair_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Gray_Hair_acc/top-1"
+    name: "Gray_Hair_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1550,8 +1550,8 @@ layer
 layer {
     bottom: "cls_Heavy_Makeup"
     bottom: "Heavy_Makeup_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Heavy_Makeup_acc/top-1"
+    name: "Heavy_Makeup_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1587,8 +1587,8 @@ layer
 layer {
     bottom: "cls_High_Cheekbones"
     bottom: "High_Cheekbones_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "High_Cheekbones_acc/top-1"
+    name: "High_Cheekbones_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1624,8 +1624,8 @@ layer
 layer {
     bottom: "cls_Male"
     bottom: "Male_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Male_acc/top-1"
+    name: "Male_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1661,8 +1661,8 @@ layer
 layer {
     bottom: "cls_Mouth_Slightly_Open"
     bottom: "Mouth_Slightly_Open_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Mouth_Slightly_Open_acc/top-1"
+    name: "Mouth_Slightly_Open_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1698,8 +1698,8 @@ layer
 layer {
     bottom: "cls_Mustache"
     bottom: "Mustache_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Mustache_acc/top-1"
+    name: "Mustache_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1735,8 +1735,8 @@ layer
 layer {
     bottom: "cls_Narrow_Eyes"
     bottom: "Narrow_Eyes_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Narrow_Eyes_acc/top-1"
+    name: "Narrow_Eyes_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1769,20 +1769,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_No_Beard"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_No_Beard"
-    bottom: "No_Beard_label"
-    top: "loss_No_Beardw"
-    loss_weight: 1
-}
 layer {
     bottom: "cls_No_Beard"
     bottom: "No_Beard_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "No_Beard_acc/top-1"
+    name: "No_Beard_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1815,21 +1806,11 @@ layer
     }
   }
 }
-
-layer
-{
-    name: "loss_cls_Oval_Face"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Oval_Face"
-    bottom: "Oval_Face_label"
-    top: "loss_Oval_Face"
-    loss_weight: 1
-}
 layer {
     bottom: "cls_Oval_Face"
     bottom: "Oval_Face_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Oval_Face_acc/top-1"
+    name: "Oval_Face_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1861,21 +1842,12 @@ layer
       value: 0
     }
   }
-}
-layer
-{
-    name: "loss_cls_Pale_Skin"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Pale_Skin"
-    bottom: "Pale_Skin_label"
-    top: "loss_Pale_Skin"
-    loss_weight: 1
-}   
+}  
 layer {
     bottom: "cls_Pale_Skin"
     bottom: "Pale_Skin_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Pale_Skin_acc/top-1"
+    name: "Pale_Skin_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1907,22 +1879,12 @@ layer
       value: 0
     }
   }
-}
-
-layer
-{
-    name: "loss_cls_Pointy_Nose"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Pointy_Nose"
-    bottom: "Pointy_Nose_label"
-    top: "loss_Pointy_Nose"
-    loss_weight: 1
-}   
+}  
 layer {
     bottom: "cls_Pointy_Nose"
     bottom: "Pointy_Nose_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Pointy_Nose_acc/top-1"
+    name: "Pointy_Nose_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1934,7 +1896,7 @@ layer
   name: "cls_Receding_Hairline"
   type: "InnerProduct"
   bottom: "fc-512"
-  top: "cls_Receding_Hairlinee"
+  top: "cls_Receding_Hairline"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -1956,10 +1918,10 @@ layer
   }
 }  
 layer {
-    bottom: "cls_Receding_Hairlinee"
+    bottom: "cls_Receding_Hairline"
     bottom: "Receding_Hairline_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Receding_Hairline_acc/top-1"
+    name: "Receding_Hairline_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -1995,8 +1957,8 @@ layer
 layer {
     bottom: "cls_Rosy_Cheeks"
     bottom: "Rosy_Cheeks_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Rosy_Cheeks_acc/top-1"
+    name: "Rosy_Cheeks_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2032,8 +1994,8 @@ layer
 layer {
     bottom: "cls_Sideburns"
     bottom: "Sideburns_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Sideburns_acc/top-1"
+    name: "Sideburns_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2069,8 +2031,8 @@ layer
 layer {
     bottom: "cls_Smiling"
     bottom: "Smiling_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Smiling_acc/top-1"
+    name: "Smiling_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2106,8 +2068,8 @@ layer
 layer {
     bottom: "cls_Straight_Hair"
     bottom: "Straight_Hair_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Straight_Hair_acc/top-1"
+    name: "Straight_Hair_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2143,8 +2105,8 @@ layer
 layer {
     bottom: "cls_Wavy_Hair"
     bottom: "Wavy_Hair_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Wavy_Hair_acc/top-1"
+    name: "Wavy_Hair_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2180,8 +2142,8 @@ layer
 layer {
     bottom: "cls_Wearing_Earrings"
     bottom: "Wearing_Earrings_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Wearing_Earrings_acc/top-1"
+    name: "Wearing_Earrings_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2217,8 +2179,8 @@ layer
 layer {
     bottom: "cls_Wearing_Hat"
     bottom: "Wearing_Hat_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Wearing_Hat_acc/top-1"
+    name: "Wearing_Hat_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2254,8 +2216,8 @@ layer
 layer {
     bottom: "cls_Wearing_Lipstick"
     bottom: "Wearing_Lipstick_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Wearing_Lipstick_acc/top-1"
+    name: "Wearing_Lipstick_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2291,8 +2253,8 @@ layer
 layer {
     bottom: "cls_Wearing_Necklace"
     bottom: "Wearing_Necklace_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Wearing_Necklace_acc/top-1"
+    name: "Wearing_Necklace_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2328,8 +2290,8 @@ layer
 layer {
     bottom: "cls_Wearing_Necktie"
     bottom: "Wearing_Necktie_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Wearing_Necktie_acc/top-1"
+    name: "Wearing_Necktie_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST
@@ -2365,8 +2327,8 @@ layer
 layer {
     bottom: "cls_Young"
     bottom: "Young_label"
-    top: "acc/top-1"
-    name: "acc/top-1"
+    top: "Young_acc/top-1"
+    name: "Young_acc/top-1"
     type: "Accuracy"
     include {
         phase: TEST

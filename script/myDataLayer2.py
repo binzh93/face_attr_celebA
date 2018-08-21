@@ -10,20 +10,6 @@ import cPickle as pickle
 import os
 
 
-# def random_crop(img, size, cop_size, flag, xy=[]):
-#     if flag == 0:
-#         h_off = random.randint(0, size - cop_size)
-#         w_off = random.randint(0, size - cop_size)
-#         xy = [xy[0] - w_off, xy[1] - h_off, xy[2] - w_off, xy[3] - h_off, xy[4] - w_off, xy[5] - h_off, xy[6] - w_off,
-#               xy[7] - h_off, xy[8] - w_off, xy[9] - h_off]
-#         crop_img = img[h_off:h_off + cop_size, w_off:w_off + cop_size]
-#         return crop_img, xy
-#     if flag == 1:
-#         h_off = random.randint(0, size - cop_size)
-#         w_off = random.randint(0, size - cop_size)
-#         crop_img = img[h_off:h_off + cop_size, w_off:w_off + cop_size]
-#         return crop_img
-
 
 def mirror(img):
     img = cv2.flip(img, 1)
@@ -83,9 +69,6 @@ class Data_Layer_train(caffe.Layer):
         self.basepath = params['img_basepath']
 
         self.im_size = params["im_size"]    # "(200, 200)" ==> [200, 200]  str ==>list
-        self.im_size =  re.split(r"\(|,|\)", self.im_size)
-        self.im_size = [int(i.strip()) for i in self.im_size if i != ""]
-        # self.crop_size = params["crop_size"]
 
         self.imgLabelList = readSrcFile(self.src_file)
         self._cur = 0  # use this to check if we need to restart the list of images
@@ -101,12 +84,11 @@ class Data_Layer_train(caffe.Layer):
         top[0].reshape(self.batch_size, 3, self.im_size[0], self.im_size[1])
         for i in xrange(1, 41):
             top[i].reshape(self.batch_size, 1)
-        # top[0].reshape(self.batch_size, 3, self.crop_size, self.crop_size)
-        # top[1].reshape(self.batch_size, 1)
-        # top[2].reshape(self.batch_size, 1)
+
 
     def reshape(self, bottom, top):
         pass
+
 
     def forward(self, bottom, top):
         for itt in range(self.batch_size):
@@ -115,12 +97,10 @@ class Data_Layer_train(caffe.Layer):
             for nums in xrange(40):
                 top[nums+1].data[itt, ...] = labelList[nums]
 
-            # top[0].data[itt, ...] = im
-            # top[1].data[itt, ...] = label
-            # top[2].data[itt, ...] = pts
 
     def backward(self, top, propagate_down, bottom):
         pass
+
 
     def load_next_image(self):
         # If we have finished forwarding all images, then an epoch has finished
@@ -146,8 +126,7 @@ class Data_Layer_train(caffe.Layer):
         image = image.transpose((2, 0, 1))
         image -= self.mean
         image *= self.scale
-        #print os.path.join(self.basepath, img_path), label, pts
-        
+
         return image, labelList
 
     # mirror, illumination, mirror+illumination
@@ -190,10 +169,7 @@ class Data_Layer_validation(caffe.Layer):
         self.basepath = params['img_basepath']
 
         self.im_size = params["im_size"]    # "(200, 200)" ==> [200, 200]  str ==>list
-        self.im_size =  re.split(r"\(|,|\)", self.im_size)
-        self.im_size = [int(i.strip()) for i in self.im_size if i != ""]
-        # self.crop_size = params["crop_size"]
-
+    
         self.imgLabelList = readSrcFile(self.src_file)
         self._cur = 0  # use this to check if we need to restart the list of images
 
@@ -208,9 +184,7 @@ class Data_Layer_validation(caffe.Layer):
         top[0].reshape(self.batch_size, 3, self.im_size[0], self.im_size[1])
         for i in xrange(1, 41):
             top[i].reshape(self.batch_size, 1)
-        # top[0].reshape(self.batch_size, 3, self.crop_size, self.crop_size)
-        # top[1].reshape(self.batch_size, 1)
-        # top[2].reshape(self.batch_size, 1)
+
 
     def reshape(self, bottom, top):
         pass
@@ -272,5 +246,6 @@ class Data_Layer_validation(caffe.Layer):
         else:
             image = image
         return image
+
 
 
