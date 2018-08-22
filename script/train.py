@@ -6,6 +6,6 @@ import os
 import caffe
 caffe.set_device(1)
 caffe.set_mode_gpu()
-solver = caffe.SGDSolver('/workspace/mnt/group/face-reg/zhubin/face_attr_celebA/model/solver.prototxt')
-solver.net.copy_from('/workspace/mnt/group/face-reg/zhubin/face_attr_celebA/model/sphereface_model.caffemodel')
+solver = caffe.SGDSolver('model/solver.prototxt')
+solver.net.copy_from('model/sphereface_model.caffemodel')
 solver.solve()
