@@ -1,19 +1,19 @@
 train_net: "model/train_net.prototxt"   
 test_net: "model/test_net.prototxt"
 #iter_step: 2
-test_iter: 5#2026        # 40520/20=2026    # 8188/100
-test_interval: 5#1267    # 162079/128=1266.  409479/384=1066.3
+test_iter: 994        # 19867/20=993.    
+test_interval: 1267    # 162770/128=1271.  
 test_initialization: false
-display: 211
+display: 212
 base_lr: 0.001
 lr_policy: "multistep"   # step -> stepsize    multistep -> stepvalue
 #stepsize: 8000  # every 10 epochs
-stepvalue: 44310 # 35 epochs
+stepvalue: 44345 # 35 epochs
 gamma: 0.1
-max_iter: 12600  # 50epochs
+max_iter: 126700  # 50epochs
 momentum: 0.95
 weight_decay: 0.0005 #0.0001
-snapshot: 5#12660
-snapshot_prefix: "save_model/face_attr"
+snapshot: 6335
+snapshot_prefix: "save_model_new3/face_attr"
 solver_mode: GPU
 

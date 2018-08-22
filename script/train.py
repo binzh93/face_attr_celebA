@@ -1,7 +1,6 @@
 import sys
 import os
-# curr_path = os.path.abspath(".")
-# sys.path.append(curr_path)
+
 
 import caffe
 caffe.set_device(1)
