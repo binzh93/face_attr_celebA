@@ -51,7 +51,7 @@ layer
     python_param {
         module: "myDataLayer2"
         layer: "Data_Layer_train"
-        param_str: '{"mirror": False, "illumination": False, "im_size": (200, 150), "batch_size": 20, "src_file": "/workspace/mnt/group/face-reg/zhubin/celebA/train.txt", "img_basepath": "/workspace/mnt/group/face-reg/zhubin/"}'
+        param_str: '{"mirror": False, "illumination": False, "im_size": (200, 150), "batch_size": 20, "src_file": "/workspace/mnt/group/face-reg/zhubin/celebA/validation.txt", "img_basepath": "/workspace/mnt/group/face-reg/zhubin/"}'
     }
 }
 ############## CNN Architecture ###############
