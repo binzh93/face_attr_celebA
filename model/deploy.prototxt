@@ -1,60 +1,9 @@
-name: "SpherefaceNet-20"
-# =========train input=======
-layer
-{
-    name: "Data"
-    type: "Python"
-    top: "data"
-    top: "5_o_Clock_Shadow_label"
-    top: "Arched_Eyebrows_label"
-    top: "Attractive_label"
-    top: "Bags_Under_Eyes_label"
-    top: "Bald_label"
-    top: "Bangs_label"
-    top: "Big_Lips_label"
-    top: "Big_Nose_label"
-    top: "Black_Hair_label"
-    top: "Blond_Hair_label"
-    top: "Blurry_label"
-    top: "Brown_Hair_label"
-    top: "Bushy_Eyebrows_label"
-    top: "Chubby_label"
-    top: "Double_Chin_label"
-    top: "Eyeglasses_label"
-    top: "Goatee_label"
-    top: "Gray_Hair_label"
-    top: "Heavy_Makeup_label"
-    top: "High_Cheekbones_label"
-    top: "Male_label"
-    top: "Mouth_Slightly_Open_label"
-    top: "Mustache_label"
-    top: "Narrow_Eyes_label"
-    top: "No_Beard_label"
-    top: "Oval_Face_label"
-    top: "Pale_Skin_label"
-    top: "Pointy_Nose_label"
-    top: "Receding_Hairline_label"
-    top: "Rosy_Cheeks_label"
-    top: "Sideburns_label"
-    top: "Smiling_label"
-    top: "Straight_Hair_label"
-    top: "Wavy_Hair_label"
-    top: "Wearing_Earrings_label"
-    top: "Wearing_Hat_label"
-    top: "Wearing_Lipstick_label"
-    top: "Wearing_Necklace_label"
-    top: "Wearing_Necktie_label"
-    top: "Young_label"
-    include {
-        phase: TRAIN
-    }
-    python_param {
-        module: "myDataLayer3"
-        layer: "Data_Layer_train"
-        param_str: '{"mirror": True, "illumination": True, "im_size": (200, 150), "batch_size": 128, "src_file": "/workspace/mnt/group/face-reg/zhubin/celebA/train.txt", "img_basepath": "/workspace/mnt/group/face-reg/zhubin/"}'
-    }
-}
-############## CNN Architecture ###############
+input: "data"
+input_dim: 1
+input_dim: 3
+input_dim: 200
+input_dim: 150
+#===========================
 layer {
   name: "conv1_1"
   type: "Convolution"
@@ -842,16 +791,16 @@ layer {
   }
 }
 #=================================
-layer
-{
-    name: "dropout"
-    type: "Dropout"
-    bottom: "fc-512"
-    top: "fc-512"
-    dropout_param {
-        dropout_ratio: 0.5
-    }
-}
+#layer
+#{
+#    name: "dropout"
+#    type: "Dropout"
+#    bottom: "fc-512"
+#    top: "fc-512"
+#    dropout_param {
+#        dropout_ratio: 0.5
+#    }
+#}
 #=================================
 
 #========5_o_Clock_Shadow=======
@@ -881,15 +830,11 @@ layer
     }
   }
 }
-
-layer
-{
-    name: "loss_cls_5_o_Clock_Shadow"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_5_o_Clock_Shadow"
-    bottom: "5_o_Clock_Shadow_label"
-    top: "loss_5_o_Clock_Shadow"
-    loss_weight: 1
+layer {
+	bottom: "cls_5_o_Clock_Shadow"
+	top: "prob_5_o_Clock_Shadow"
+	name: "prob_5_o_Clock_Shadow"
+	type: "Softmax"
 }
 # ==========Arched_Eyebrows ===============
 layer
@@ -918,14 +863,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Arched_Eyebrows"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Arched_Eyebrows"
-    bottom: "Arched_Eyebrows_label"
-    top: "loss_Arched_Eyebrows"
-    loss_weight: 1
+layer {
+	bottom: "cls_Arched_Eyebrows"
+	top: "prob_Arched_Eyebrows"
+	name: "prob_Arched_Eyebrows"
+	type: "Softmax"
 }
 #  =========Attractive ========
 layer
@@ -954,17 +896,12 @@ layer
     }
   }
 }
-
-layer
-{
-    name: "loss_cls_Attractive"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Attractive"
-    bottom: "Attractive_label"
-    top: "loss_Attractive"
-    loss_weight: 1
+layer {
+	bottom: "cls_Attractive"
+	top: "prob_Attractive"
+	name: "prob_Attractive"
+	type: "Softmax"
 }
-
 #========= Bags_Under_Eyes
 layer
 {
@@ -992,17 +929,12 @@ layer
     }
   }
 }
-
-layer
-{
-    name: "loss_cls_Bags_Under_Eyes"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Bags_Under_Eyes"
-    bottom: "Bags_Under_Eyes_label"
-    top: "loss_Bags_Under_Eyes"
-    loss_weight: 1
+layer {
+	bottom: "cls_Bags_Under_Eyes"
+	top: "prob_Bags_Under_Eyes"
+	name: "prob_Bags_Under_Eyes"
+	type: "Softmax"
 }
-
 #=========cls_Bald  ============
 layer
 {
@@ -1030,15 +962,11 @@ layer
     }
   }
 }
-
-layer
-{
-    name: "loss_cls_Bald"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Bald"
-    bottom: "Bald_label"
-    top: "loss_Bald"
-    loss_weight: 1
+layer {
+	bottom: "cls_Bald"
+	top: "prob_Bald"
+	name: "prob_Bald"
+	type: "Softmax"
 }
 #======== Bangs
 layer
@@ -1067,14 +995,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Bangs"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Bangs"
-    bottom: "Bangs_label"
-    top: "loss_Bangs"
-    loss_weight: 1
+layer {
+	bottom: "cls_Bangs"
+	top: "prob_Bangs"
+	name: "prob_Bangs"
+	type: "Softmax"
 }
 #=======cls_Big_Lips======
 layer
@@ -1103,16 +1028,12 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Big_Lips"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Big_Lips"
-    bottom: "Big_Lips_label"
-    top: "loss_Big_Lips"
-    loss_weight: 1
+layer {
+	bottom: "cls_Big_Lips"
+	top: "prob_Big_Lips"
+	name: "prob_Big_Lips"
+	type: "Softmax"
 }
-
 # ======= cls_Big_Nose =====
 layer
 {
@@ -1140,16 +1061,12 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Big_Nose"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Big_Nose"
-    bottom: "Big_Nose_label"
-    top: "loss_Big_Nose"
-    loss_weight: 1
+layer {
+	bottom: "cls_Big_Nose"
+	top: "prob_Big_Nose"
+	name: "prob_Big_Nose"
+	type: "Softmax"
 }
-
 #======= Black_Hair
 layer
 {
@@ -1177,14 +1094,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Black_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Black_Hair"
-    bottom: "Black_Hair_label"
-    top: "loss_Black_Hair"
-    loss_weight: 1
+layer {
+	bottom: "cls_Black_Hair"
+	top: "prob_Black_Hair"
+	name: "prob_Black_Hair"
+	type: "Softmax"
 }
 #===========cls_Blond_Hair 
 layer
@@ -1213,14 +1127,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Blond_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Blond_Hair"
-    bottom: "Blond_Hair_label"
-    top: "loss_Blond_Hair"
-    loss_weight: 1
+layer {
+	bottom: "cls_Blond_Hair"
+	top: "prob_Blond_Hair"
+	name: "prob_Blond_Hair"
+	type: "Softmax"
 }
 # =========== cls_Blurry
 layer
@@ -1248,17 +1159,13 @@ layer
       value: 0
     }
   }
+} 
+layer {
+	bottom: "cls_Blurry"
+	top: "prob_Blurry"
+	name: "prob_Blurry"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Blurry"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Blurry"
-    bottom: "Blurry_label"
-    top: "loss_Blurry"
-    loss_weight: 1
-}    
-
 #=========== Brown_Hair
 layer
 {
@@ -1285,16 +1192,13 @@ layer
       value: 0
     }
   }
+}  
+layer {
+	bottom: "cls_Brown_Hair"
+	top: "prob_Brown_Hair"
+	name: "prob_Brown_Hair"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Brown_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Brown_Hair"
-    bottom: "Brown_Hair_label"
-    top: "loss_Brown_Hair"
-    loss_weight: 1
-}    
 # =========Bushy_Eyebrows
 layer
 {
@@ -1321,17 +1225,13 @@ layer
       value: 0
     }
   }
+}  
+layer {
+	bottom: "cls_Bushy_Eyebrows"
+	top: "prob_Bushy_Eyebrows"
+	name: "prob_Bushy_Eyebrows"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Bushy_Eyebrows"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Bushy_Eyebrows"
-    bottom: "Bushy_Eyebrows_label"
-    top: "loss_Bushy_Eyebrows"
-    loss_weight: 1
-}    
-
 #===========cls_Chubby
 layer
 {
@@ -1359,15 +1259,12 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Chubby"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Chubby"
-    bottom: "Chubby_label"
-    top: "loss_Chubby"
-    loss_weight: 1
-}  
+layer {
+	bottom: "cls_Chubby"
+	top: "prob_Chubby"
+	name: "prob_Chubby"
+	type: "Softmax"
+}
 #========== cls_Double_Chin
 layer
 {
@@ -1394,16 +1291,13 @@ layer
       value: 0
     }
   }
+} 
+layer {
+	bottom: "cls_Double_Chin"
+	top: "prob_Double_Chin"
+	name: "prob_Double_Chin"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Double_Chin"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Double_Chin"
-    bottom: "Double_Chin_label"
-    top: "loss_Double_Chin"
-    loss_weight: 1
-}   
 #========== Eyeglasses
 layer
 {
@@ -1431,15 +1325,12 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Eyeglasses"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Eyeglasses"
-    bottom: "Eyeglasses_label"
-    top: "loss_Eyeglasses"
-    loss_weight: 1
-}    
+layer {
+	bottom: "cls_Eyeglasses"
+	top: "prob_Eyeglasses"
+	name: "prob_Eyeglasses"
+	type: "Softmax"
+}
 # ================cls_Goatee
 layer
 {
@@ -1466,16 +1357,13 @@ layer
       value: 0
     }
   }
+} 
+layer {
+	bottom: "cls_Goatee"
+	top: "prob_Goatee"
+	name: "prob_Goatee"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Goatee"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Goatee"
-    bottom: "Goatee_label"
-    top: "loss_Goatee"
-    loss_weight: 1
-}   
 # ===================Gray_Hair
 layer
 {
@@ -1502,17 +1390,13 @@ layer
       value: 0
     }
   }
+} 
+layer {
+	bottom: "cls_Gray_Hair"
+	top: "prob_Gray_Hair"
+	name: "prob_Gray_Hair"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Gray_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Gray_Hair"
-    bottom: "Gray_Hair_label"
-    top: "loss_Gray_Hair"
-    loss_weight: 1
-}  
-
 #==========cls_Heavy_Makeup
 layer
 {
@@ -1540,15 +1424,12 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Heavy_Makeup"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Heavy_Makeup"
-    bottom: "Heavy_Makeup_label"
-    top: "loss_Heavy_Makeup"
-    loss_weight: 1
-} 
+layer {
+	bottom: "cls_Heavy_Makeup"
+	top: "prob_Heavy_Makeup"
+	name: "prob_Heavy_Makeup"
+	type: "Softmax"
+}
 # ============ High_Cheekbones
 layer
 {
@@ -1576,16 +1457,12 @@ layer
     }
   }
 }
-
-layer
-{
-    name: "loss_cls_High_Cheekbones"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_High_Cheekbones"
-    bottom: "High_Cheekbones_label"
-    top: "loss_High_Cheekbones"
-    loss_weight: 1
-}  
+layer {
+	bottom: "cls_High_Cheekbones"
+	top: "prob_High_Cheekbones"
+	name: "prob_High_Cheekbones"
+	type: "Softmax"
+}
 # ============Male
 layer
 {
@@ -1613,14 +1490,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Male"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Male"
-    bottom: "Male_label"
-    top: "loss_Male"
-    loss_weight: 1
+layer {
+	bottom: "cls_Male"
+	top: "prob_Male"
+	name: "prob_Male"
+	type: "Softmax"
 }
 #=========Mouth_Slightly_Open
 layer
@@ -1649,14 +1523,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Mouth_Slightly_Open"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Mouth_Slightly_Open"
-    bottom: "Mouth_Slightly_Open_label"
-    top: "loss_Mouth_Slightly_Open"
-    loss_weight: 1
+layer {
+	bottom: "cls_Mouth_Slightly_Open"
+	top: "prob_Mouth_Slightly_Open"
+	name: "prob_Mouth_Slightly_Open"
+	type: "Softmax"
 }
 #=========cls_Mustache
 layer
@@ -1685,14 +1556,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Mustache"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Mustache"
-    bottom: "Mustache_label"
-    top: "loss_Mustache"
-    loss_weight: 1
+layer {
+	bottom: "cls_Mustache"
+	top: "prob_Mustache"
+	name: "prob_Mustache"
+	type: "Softmax"
 }
 #=========cls_Narrow_Eyes
 layer
@@ -1721,14 +1589,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Narrow_Eyes"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Narrow_Eyes"
-    bottom: "Narrow_Eyes_label"
-    top: "loss_Narrow_Eyes"
-    loss_weight: 1
+layer {
+	bottom: "cls_Narrow_Eyes"
+	top: "prob_Narrow_Eyes"
+	name: "prob_Narrow_Eyes"
+	type: "Softmax"
 }
 #=========cls_No_Beard
 layer
@@ -1757,14 +1622,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_No_Beard"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_No_Beard"
-    bottom: "No_Beard_label"
-    top: "loss_No_Beardw"
-    loss_weight: 1
+layer {
+	bottom: "cls_No_Beard"
+	top: "prob_No_Beard"
+	name: "prob_No_Beard"
+	type: "Softmax"
 }
 #=========cls_Oval_Face
 layer
@@ -1793,17 +1655,12 @@ layer
     }
   }
 }
-
-layer
-{
-    name: "loss_cls_Oval_Face"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Oval_Face"
-    bottom: "Oval_Face_label"
-    top: "loss_Oval_Face"
-    loss_weight: 1
+layer {
+	bottom: "cls_Oval_Face"
+	top: "prob_Oval_Face"
+	name: "prob_Oval_Face"
+	type: "Softmax"
 }
-
 #=========cls_Pale_Skin
 layer
 {
@@ -1830,16 +1687,13 @@ layer
       value: 0
     }
   }
+}  
+layer {
+	bottom: "cls_Pale_Skin"
+	top: "prob_Pale_Skin"
+	name: "prob_Pale_Skin"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Pale_Skin"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Pale_Skin"
-    bottom: "Pale_Skin_label"
-    top: "loss_Pale_Skin"
-    loss_weight: 1
-}   
 #=========cls_Pointy_Nose
 layer
 {
@@ -1866,17 +1720,13 @@ layer
       value: 0
     }
   }
+}  
+layer {
+	bottom: "cls_Pointy_Nose"
+	top: "prob_Pointy_Nose"
+	name: "prob_Pointy_Nose"
+	type: "Softmax"
 }
-
-layer
-{
-    name: "loss_cls_Pointy_Nose"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Pointy_Nose"
-    bottom: "Pointy_Nose_label"
-    top: "loss_Pointy_Nose"
-    loss_weight: 1
-}   
 #=========cls_Receding_Hairline
 layer
 {
@@ -1903,16 +1753,13 @@ layer
       value: 0
     }
   }
+}  
+layer {
+	bottom: "cls_Receding_Hairline"
+	top: "prob_Receding_Hairline"
+	name: "prob_Receding_Hairline"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Receding_Hairline"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Receding_Hairline"
-    bottom: "Receding_Hairline_label"
-    top: "loss_Receding_Hairline"
-    loss_weight: 1
-}    
 #=========cls_Rosy_Cheeks
 layer
 {
@@ -1940,14 +1787,11 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Rosy_Cheeks"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Rosy_Cheeks"
-    bottom: "Rosy_Cheeks_label"
-    top: "loss_Rosy_Cheeks"
-    loss_weight: 1
+layer {
+	bottom: "cls_Rosy_Cheeks"
+	top: "prob_Rosy_Cheeks"
+	name: "prob_Rosy_Cheeks"
+	type: "Softmax"
 }
 #=========cls_Sideburns
 layer
@@ -1976,16 +1820,12 @@ layer
     }
   }
 }
-
-layer
-{
-    name: "loss_cls_Sideburns"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Sideburns"
-    bottom: "Sideburns_label"
-    top: "loss_Sideburns"
-    loss_weight: 1
-} 
+layer {
+	bottom: "cls_Sideburns"
+	top: "prob_Sideburns"
+	name: "prob_Sideburns"
+	type: "Softmax"
+}
 #=========cls_Smiling
 layer
 {
@@ -2013,16 +1853,12 @@ layer
     }
   }
 }
-
-layer
-{
-    name: "loss_cls_Smiling"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Smiling"
-    bottom: "Smiling_label"
-    top: "loss_Smiling"
-    loss_weight: 1
-}  
+layer {
+	bottom: "cls_Smiling"
+	top: "prob_Smiling"
+	name: "prob_Smiling"
+	type: "Softmax"
+}
 #=========cls_Straight_Hair
 layer
 {
@@ -2049,16 +1885,13 @@ layer
       value: 0
     }
   }
+} 
+layer {
+	bottom: "cls_Straight_Hair"
+	top: "prob_Straight_Hair"
+	name: "prob_Straight_Hair"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Straight_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Straight_Hair"
-    bottom: "Straight_Hair_label"
-    top: "loss_Straight_Hair"
-    loss_weight: 1
-}   
 #=========cls_Wavy_Hair
 layer
 {
@@ -2085,17 +1918,13 @@ layer
       value: 0
     }
   }
+} 
+layer {
+	bottom: "cls_Wavy_Hair"
+	top: "prob_Wavy_Hair"
+	name: "prob_Wavy_Hair"
+	type: "Softmax"
 }
-
-layer
-{
-    name: "loss_cls_Wavy_Hair"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Wavy_Hair"
-    bottom: "Wavy_Hair_label"
-    top: "loss_Wavy_Hair"
-    loss_weight: 1
-}   
 #=========cls_Wearing_Earrings
 layer
 {
@@ -2123,15 +1952,12 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Wearing_Earrings"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Wearing_Earrings"
-    bottom: "Wearing_Earrings_label"
-    top: "loss_Wearing_Earrings"
-    loss_weight: 1
-}  
+layer {
+	bottom: "cls_Wearing_Earrings"
+	top: "prob_Wearing_Earrings"
+	name: "prob_Wearing_Earrings"
+	type: "Softmax"
+}
 #=========cls_Wearing_Hat
 layer
 {
@@ -2158,16 +1984,13 @@ layer
       value: 0
     }
   }
+} 
+layer {
+	bottom: "cls_Wearing_Hat"
+	top: "prob_Wearing_Hat"
+	name: "prob_Wearing_Hat"
+	type: "Softmax"
 }
-layer
-{
-    name: "loss_cls_Wearing_Hat"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Wearing_Hat"
-    bottom: "Wearing_Hat_label"
-    top: "loss_Wearing_Hat"
-    loss_weight: 1
-}   
 #=========cls_Wearing_Lipstick
 layer
 {
@@ -2195,15 +2018,12 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Wearing_Lipstick"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Wearing_Lipstick"
-    bottom: "Wearing_Lipstick_label"
-    top: "loss_Wearing_Lipstick"
-    loss_weight: 1
-}  
+layer {
+	bottom: "cls_Wearing_Lipstick"
+	top: "prob_Wearing_Lipstick"
+	name: "prob_Wearing_Lipstick"
+	type: "Softmax"
+}
 #=========cls_Wearing_Necklace
 layer
 {
@@ -2231,15 +2051,12 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Wearing_Necklace"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Wearing_Necklace"
-    bottom: "Wearing_Necklace_label"
-    top: "loss_Wearing_Necklace"
-    loss_weight: 1
-}  
+layer {
+	bottom: "cls_Wearing_Necklace"
+	top: "prob_Wearing_Necklace"
+	name: "prob_Wearing_Necklace"
+	type: "Softmax"
+}
 #=========cls_Wearing_Necktie
 layer
 {
@@ -2267,16 +2084,12 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Wearing_Necktie"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Wearing_Necktie"
-    bottom: "Wearing_Necktie_label"
-    top: "loss_Wearing_Necktie"
-    loss_weight: 1
+layer {
+	bottom: "cls_Wearing_Necktie"
+	top: "prob_Wearing_Necktie"
+	name: "prob_Wearing_Necktie"
+	type: "Softmax"
 }
-
 #=========cls_Young
 layer
 {
@@ -2304,12 +2117,10 @@ layer
     }
   }
 }
-layer
-{
-    name: "loss_cls_Young"
-    type: "SoftmaxWithLoss"
-    bottom: "cls_Young"
-    bottom: "Young_label"
-    top: "loss_Young"
-    loss_weight: 1
+layer {
+	bottom: "cls_Young"
+	top: "prob_Young"
+	name: "prob_Young"
+	type: "Softmax"
 }
+

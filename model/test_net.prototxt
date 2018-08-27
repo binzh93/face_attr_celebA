@@ -49,7 +49,7 @@ layer
         phase: TEST
     }
     python_param {
-        module: "myDataLayer2"
+        module: "myDataLayer3"
         layer: "Data_Layer_validation"
         param_str: '{"mirror": False, "illumination": False, "im_size": (200, 150), "batch_size": 20, "src_file": "/workspace/mnt/group/face-reg/zhubin/celebA/validation.txt", "img_basepath": "/workspace/mnt/group/face-reg/zhubin/"}'
     }
@@ -842,16 +842,16 @@ layer {
   }
 }
 #=================================
-# layer
-# {
-#     name: "dropout"
-#     type: "Dropout"
-#     bottom: "pool5"
-#     top: "drfc5"
-#     dropout_param {
-#         dropout_ratio: 0.5
-#     }
-# }
+layer
+{
+    name: "dropout"
+    type: "Dropout"
+    bottom: "fc-512"
+    top: "fc-512"
+    dropout_param {
+        dropout_ratio: 0.5
+    }
+}
 #=================================
 
 #========5_o_Clock_Shadow=======

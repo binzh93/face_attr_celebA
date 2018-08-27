@@ -45,7 +45,7 @@ def readSrcFile(basePath, src_file):
     imgLabelList = []
 
     print("-------------{}---------------".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-    print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+#     print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     for line in f.readlines():
         temp = line.split(" ")
@@ -53,7 +53,7 @@ def readSrcFile(basePath, src_file):
         image = cv2.imread(os.path.join(basePath, temp[0]))
         imgLabelList.append([image, labelList])
     print("-------------{}---------------".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-    print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+#     print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     return imgLabelList
 
 ################################################################################
@@ -253,6 +253,7 @@ class Data_Layer_validation(caffe.Layer):
         else:
             image = image
         return image
+
 
 
 
